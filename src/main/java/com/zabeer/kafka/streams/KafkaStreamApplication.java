@@ -26,7 +26,10 @@ public class KafkaStreamApplication {
     }
 
 
-
+    /**
+     * Function to stream input txn topic and print result
+     * @return
+     */
     @Bean
     public Consumer<KStream<String, Payment>> peekTxn() {
         return input -> {
@@ -34,11 +37,19 @@ public class KafkaStreamApplication {
         };
     }
 
+    /**
+     * stream the input txn topic and filter high value txns and output it to high value txn topic
+     * @return
+     */
     @Bean
     public Function<KStream<String, Payment>, KStream<String, Payment>> filterHighValueTxn(){
        return input -> input.filter((k, v) -> THRESHOLD_AMT.compareTo(v.getTxnAmount()) < 0);
     }
 
+    /**
+     * stream high velue txn topic and print result
+     * @return
+     */
     @Bean
     public Consumer<KStream<String, Payment>> peekHighValueTxn() {
         return input -> {

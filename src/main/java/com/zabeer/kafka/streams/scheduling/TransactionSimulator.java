@@ -44,7 +44,9 @@ public class TransactionSimulator {
         kafkaProducer = new KafkaProducer<>(props);
     }
 
-
+    /**
+     * Simulates random txn messages every 5 sec
+     */
     @Scheduled(fixedRate = 5000)
     public void simulatePayment() {
         try {
