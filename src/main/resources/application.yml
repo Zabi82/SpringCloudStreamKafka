@@ -1,0 +1,27 @@
+spring:
+  cloud:
+    stream:
+      function:
+        definition: peekTxn;filterHighValueTxn;peekHighValueTxn
+      bindings:
+        peekTxn-in-0:
+          destination: txn_input_topic
+          group: testGrp
+        filterHighValueTxn-in-0:
+          destination: txn_input_topic
+          group: testGrp
+        filterHighValueTxn-out-0:
+          destination: high_value_txn_topic
+        peekHighValueTxn-in-0:
+          destination: high_value_txn_topic
+          group: testGrp
+
+
+      kafka:
+        bindings:
+        streams:
+          binder:
+            configuration:
+              default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+              default.value.serde: org.springframework.kafka.support.serializer.JsonSerde
+              spring.json.trusted.packages: "*"
